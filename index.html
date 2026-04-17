@@ -24,36 +24,27 @@
             padding: 20px;
         }
 
-        /* زر التعديل في مكانه الطبيعي (أعلى اليمين) وبشكل فخم */
         .edit-btn {
             position: absolute; top: 20px; right: 20px; 
             background: rgba(255,255,255,0.03); 
             color: #666; 
             border: 1px solid rgba(255,255,255,0.05); 
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            z-index: 100;
+            padding: 8px 15px; border-radius: 10px;
+            font-size: 12px; cursor: pointer; z-index: 100;
         }
-        .edit-btn:hover { border-color: var(--gold); color: var(--gold); background: #000; }
 
         .card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 40px;
-            width: 100%; max-width: 360px; padding: 60px 25px; text-align: center;
+            border-radius: 40px; width: 100%; max-width: 360px; 
+            padding: 60px 25px; text-align: center;
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            position: relative;
         }
 
         .profile-img-wrapper {
             width: 130px; height: 130px; margin: 0 auto 30px; border-radius: 50%;
             padding: 3px; background: linear-gradient(135deg, var(--gold), #222);
         }
-
         .profile-img-wrapper img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--card-bg); }
 
         h1 { font-size: 24px; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; color: #eee; }
@@ -66,45 +57,37 @@
         .social-grid a {
             width: 50px; height: 50px; border-radius: 15px; background: #0f0f0f;
             display: none; align-items: center; justify-content: center; color: #888;
-            font-size: 20px; border: 1px solid rgba(255,255,255,0.03); transition: 0.4s;
+            border: 1px solid rgba(255,255,255,0.03);
         }
-        .social-grid a:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); }
 
-        /* لوحة التحكم */
+        /* لوحة التحكم المخفية تماماً */
         #admin-panel {
-            display: none; position: fixed; inset: 0; background: #000;
+            display: none; 
+            position: fixed; inset: 0; background: #000;
             z-index: 1000; padding: 20px; overflow-y: auto;
         }
-        .form-container { max-width: 400px; margin: 40px auto; padding: 20px; }
+        .form-container { max-width: 400px; margin: 40px auto; }
         label { display: block; margin-top: 20px; font-size: 11px; color: #555; letter-spacing: 2px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; margin: 8px 0; border-radius: 12px; border: 1px solid #1a1a1a; background: #0a0a0a; color: #fff; font-size: 14px; }
-        input:focus { border-color: var(--gold); outline: none; }
+        input { width: 100%; padding: 15px; margin: 8px 0; border-radius: 12px; border: 1px solid #1a1a1a; background: #0a0a0a; color: #fff; }
         
         .wa-container { display: flex; align-items: center; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; padding-left: 15px; }
         .wa-label { color: #444; font-size: 13px; }
         .wa-container input { border: none; }
 
-        .btn-save { background: var(--gold); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 30px; transition: 0.3s; }
-        .btn-save:hover { background: #fff; }
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 30px; }
     </style>
 </head>
 <body>
 
-    <button class="edit-btn" onclick="checkPassAndOpen()">
+    <button class="edit-btn" onclick="secureOpenAdmin()">
         <i class="fas fa-pen-nib"></i> EDIT CARD
     </button>
 
     <div class="card">
-        <div class="profile-img-wrapper">
-            <img id="view-img" src="https://via.placeholder.com/150" alt="Profile">
-        </div>
+        <div class="profile-img-wrapper"><img id="view-img" src="https://via.placeholder.com/150"></div>
         <h1 id="view-name">...</h1>
         <p class="email-text" id="view-email"></p>
-
-        <div class="info-item" id="phone-container" style="display:none;">
-            <a href="#" id="view-phone"></a>
-        </div>
-
+        <div class="info-item" id="phone-container" style="display:none;"><a href="#" id="view-phone"></a></div>
         <div class="social-grid">
             <a href="#" id="view-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
             <a href="#" id="view-ig" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -115,33 +98,16 @@
     <div id="admin-panel">
         <div class="form-container">
             <h2 style="color: var(--gold); letter-spacing: 3px;">CARD EDITOR</h2>
-            
-            <label>Profile Picture</label>
-            <input type="file" id="up-file" accept="image/*">
-            
-            <label>Name</label>
-            <input type="text" id="up-name">
-            
-            <label>Email</label>
-            <input type="email" id="up-email">
-            
-            <label>Phone</label>
-            <input type="tel" id="up-phone">
-            
-            <label>Facebook URL</label>
-            <input type="text" id="up-fb">
-            
-            <label>Instagram URL</label>
-            <input type="text" id="up-ig">
-            
+            <label>Profile Picture</label><input type="file" id="up-file" accept="image/*">
+            <label>Name</label><input type="text" id="up-name">
+            <label>Email</label><input type="email" id="up-email">
+            <label>Phone</label><input type="tel" id="up-phone">
+            <label>Facebook URL</label><input type="text" id="up-fb">
+            <label>Instagram URL</label><input type="text" id="up-ig">
             <label>WhatsApp Number</label>
-            <div class="wa-container">
-                <span class="wa-label">wa.me/</span>
-                <input type="text" id="up-wa-num">
-            </div>
-
+            <div class="wa-container"><span class="wa-label">wa.me/</span><input type="text" id="up-wa-num"></div>
             <button class="btn-save" id="save-btn" onclick="handleSave()">UPDATE PROFILE</button>
-            <button onclick="closeAdmin()" style="width:100%; background:none; color:#444; border:none; margin-top:20px; cursor:pointer; font-size:12px;">EXIT EDITOR</button>
+            <button onclick="closeAdmin()" style="width:100%; background:none; color:#444; border:none; margin-top:20px; cursor:pointer;">EXIT</button>
         </div>
     </div>
 
@@ -150,53 +116,51 @@
         const SB_KEY = 'sb_publishable_rBGikrPDXLiK8r0M_1-v6A_btF6X3ZI';
         const client = supabase.createClient(SB_URL, SB_KEY);
 
-        async function init() {
+        // وظيفة التحقق أولاً قبل فتح أي شيء
+        async function secureOpenAdmin() {
             const id = new URLSearchParams(window.location.search).get('id');
-            if(!id) return;
-
-            const { data } = await client.from('profiles').select('*').eq('id', id).single();
-            if(data) {
-                document.getElementById('view-name').innerText = data.full_name || '';
-                document.getElementById('view-email').innerText = data.email || '';
-                document.getElementById('view-img').src = data.avatar_url || 'https://via.placeholder.com/150';
-                
-                if(data.phone) {
-                    const p = document.getElementById('view-phone');
-                    p.innerText = data.phone; p.href = "tel:" + data.phone;
-                    document.getElementById('phone-container').style.display = 'block';
-                }
-
-                showSocial('view-fb', data.fb_link);
-                showSocial('view-ig', data.ig_link);
-                if(data.wa_number) {
-                    showSocial('view-wa', data.wa_number);
-                    document.getElementById('up-wa-num').value = data.wa_number.replace('https://wa.me/', '');
-                }
-                
+            const pass = prompt("Verification Required: Enter Password");
+            
+            // نجلب الباسورد من الداتا بيز للتأكد
+            const { data, error } = await client.from('profiles').select('*').eq('id', id).single();
+            
+            if(data && pass === data.password) {
+                // لو الباسورد صح، نملأ البيانات ونفتح الصفحة
                 document.getElementById('up-name').value = data.full_name || '';
                 document.getElementById('up-email').value = data.email || '';
                 document.getElementById('up-phone').value = data.phone || '';
                 document.getElementById('up-fb').value = data.fb_link || '';
                 document.getElementById('up-ig').value = data.ig_link || '';
+                if(data.wa_number) document.getElementById('up-wa-num').value = data.wa_number.replace('https://wa.me/', '');
+                
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                alert("Incorrect Password. Access Denied.");
+            }
+        }
+
+        async function init() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if(!id) return;
+            const { data } = await client.from('profiles').select('*').eq('id', id).single();
+            if(data) {
+                document.getElementById('view-name').innerText = data.full_name || '';
+                document.getElementById('view-email').innerText = data.email || '';
+                document.getElementById('view-img').src = data.avatar_url || 'https://via.placeholder.com/150';
+                if(data.phone) {
+                    const p = document.getElementById('view-phone');
+                    p.innerText = data.phone; p.href = "tel:" + data.phone;
+                    document.getElementById('phone-container').style.display = 'block';
+                }
+                showSocial('view-fb', data.fb_link);
+                showSocial('view-ig', data.ig_link);
+                showSocial('view-wa', data.wa_number);
             }
         }
 
         function showSocial(id, val) {
             const el = document.getElementById(id);
             if(val && val.length > 5) { el.style.display = 'flex'; el.href = val; }
-        }
-
-        // الوظيفة الأساسية: طلب الباسورد قبل فتح لوحة التحكم
-        async function checkPassAndOpen() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            const pass = prompt("Verification Required: Enter Password");
-            
-            const { data } = await client.from('profiles').select('password').eq('id', id).single();
-            if(data && pass === data.password) {
-                document.getElementById('admin-panel').style.display = 'block';
-            } else {
-                alert("Incorrect Password.");
-            }
         }
 
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
@@ -237,4 +201,3 @@
     </script>
 </body>
 </html>
-
