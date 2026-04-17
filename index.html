@@ -3,51 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Digital Card</title>
+    <title>Luxury Digital Business Card</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        :root { --gold: #c5a059; --deep-black: #050505; --card-bg: #0a0a0a; }
+        :root { 
+            --gold: #c5a059; 
+            --deep-black: #050505;
+            --card-bg: #0a0a0a;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--deep-black) radial-gradient(circle at center, #111 0%, #000 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #fff; padding: 20px; }
+        
+        body {
+            background-color: var(--deep-black);
+            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #fff;
+            padding: 20px;
+        }
 
-        .edit-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.03); color: #666; border: 1px solid rgba(255,255,255,0.05); padding: 8px 15px; border-radius: 10px; font-size: 12px; cursor: pointer; z-index: 100; transition: 0.3s; }
-        .edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+        /* زر التعديل العلوي */
+        .edit-btn {
+            position: absolute; top: 20px; right: 20px; 
+            background: rgba(255,255,255,0.03); 
+            color: #666; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            padding: 10px 20px; border-radius: 12px;
+            font-size: 12px; cursor: pointer; z-index: 100;
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .edit-btn:hover { border-color: var(--gold); color: var(--gold); background: #000; }
 
-        .card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 40px; width: 100%; max-width: 360px; padding: 60px 25px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        .profile-img-wrapper { width: 130px; height: 130px; margin: 0 auto 30px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, var(--gold), #222); }
+        /* الكارت الرئيسي */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 40px; width: 100%; max-width: 360px; 
+            padding: 60px 25px; text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .profile-img-wrapper {
+            width: 135px; height: 135px; margin: 0 auto 30px; border-radius: 50%;
+            padding: 3px; background: linear-gradient(135deg, var(--gold), #222);
+        }
         .profile-img-wrapper img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--card-bg); }
 
-        h1 { font-size: 24px; letter-spacing: 2px; margin-bottom: 8px; color: #eee; }
-        .email-text { color: #666; font-size: 13px; margin-bottom: 30px; }
-        .info-item { background: rgba(255,255,255,0.02); padding: 18px; border-radius: 20px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.03); }
-        .info-item a { color: var(--gold); text-decoration: none; font-size: 16px; letter-spacing: 2px; }
+        h1 { font-size: 26px; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; color: #fff; }
+        .email-text { color: #555; font-size: 14px; margin-bottom: 35px; }
+
+        .info-item { background: rgba(255,255,255,0.02); padding: 18px; border-radius: 20px; margin-bottom: 35px; border: 1px solid rgba(255,255,255,0.03); }
+        .info-item a { color: var(--gold); text-decoration: none; font-size: 18px; letter-spacing: 1px; font-weight: 400; }
 
         .social-grid { display: flex; justify-content: center; gap: 20px; }
-        .social-grid a { width: 50px; height: 50px; border-radius: 15px; background: #0f0f0f; display: none; align-items: center; justify-content: center; color: #888; border: 1px solid rgba(255,255,255,0.03); transition: 0.4s; }
+        .social-grid a {
+            width: 55px; height: 55px; border-radius: 18px; background: #0d0d0d;
+            display: none; align-items: center; justify-content: center; color: #888;
+            font-size: 22px; border: 1px solid rgba(255,255,255,0.03); transition: 0.4s;
+        }
         .social-grid a:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); }
 
-        #admin-panel { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; overflow-y: auto; }
-        .form-container { max-width: 400px; margin: 40px auto; }
-        label { display: block; margin-top: 20px; font-size: 11px; color: #555; letter-spacing: 2px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; margin: 8px 0; border-radius: 12px; border: 1px solid #1a1a1a; background: #0a0a0a; color: #fff; }
-        .wa-container { display: flex; align-items: center; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; padding-left: 15px; }
-        .wa-label { color: #444; font-size: 13px; }
+        /* لوحة التحكم السوداء الفخمة */
+        #admin-panel {
+            display: none; position: fixed; inset: 0; background: #000;
+            z-index: 1000; padding: 20px; overflow-y: auto;
+        }
+        .form-container { max-width: 400px; margin: 40px auto; padding: 10px; }
+        h2 { color: var(--gold); letter-spacing: 4px; font-size: 20px; margin-bottom: 10px; text-align: center; }
+        label { display: block; margin-top: 25px; font-size: 10px; color: #444; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
+        input { width: 100%; padding: 16px; margin: 8px 0; border-radius: 12px; border: 1px solid #151515; background: #080808; color: #fff; font-size: 14px; }
+        input:focus { border-color: var(--gold); outline: none; }
+        
+        .wa-container { display: flex; align-items: center; background: #080808; border: 1px solid #151515; border-radius: 12px; padding-left: 15px; }
+        .wa-label { color: #333; font-size: 14px; }
         .wa-container input { border: none; }
-        .btn-save { background: var(--gold); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 30px; }
+
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 20px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 40px; letter-spacing: 1px; font-size: 15px; transition: 0.3s; }
+        .btn-save:hover { background: #fff; transform: scale(1.02); }
+        .exit-btn { width: 100%; background: none; color: #333; border: none; margin-top: 20px; cursor: pointer; font-size: 12px; text-decoration: underline; }
     </style>
 </head>
 <body>
 
-    <button class="edit-btn" onclick="secureOpenAdmin()"><i class="fas fa-pen-nib"></i> EDIT CARD</button>
+    <button class="edit-btn" onclick="openAdminWithPass()">
+        <i class="fas fa-cog"></i> SETTINGS
+    </button>
 
     <div class="card">
-        <div class="profile-img-wrapper"><img id="view-img" src="https://via.placeholder.com/150"></div>
-        <h1 id="view-name">...</h1>
+        <div class="profile-img-wrapper">
+            <img id="view-img" src="https://via.placeholder.com/150" alt="Profile">
+        </div>
+        <h1 id="view-name">Loading...</h1>
         <p class="email-text" id="view-email"></p>
-        <div class="info-item" id="phone-container" style="display:none;"><a href="#" id="view-phone"></a></div>
+
+        <div class="info-item" id="phone-container" style="display:none;">
+            <a href="#" id="view-phone"></a>
+        </div>
+
         <div class="social-grid">
             <a href="#" id="view-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
             <a href="#" id="view-ig" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -57,17 +112,34 @@
 
     <div id="admin-panel">
         <div class="form-container">
-            <h2 style="color: var(--gold); letter-spacing: 3px;">CARD EDITOR</h2>
-            <label>Profile Picture</label><input type="file" id="up-file" accept="image/*">
-            <label>Name</label><input type="text" id="up-name">
-            <label>Email</label><input type="email" id="up-email">
-            <label>Phone</label><input type="tel" id="up-phone">
-            <label>Facebook URL</label><input type="text" id="up-fb">
-            <label>Instagram URL</label><input type="text" id="up-ig">
+            <h2>DESIGN EDITOR</h2>
+            
+            <label>Profile Image</label>
+            <input type="file" id="up-file" accept="image/*">
+            
+            <label>Full Name</label>
+            <input type="text" id="up-name">
+            
+            <label>Email Address</label>
+            <input type="email" id="up-email">
+            
+            <label>Call Number</label>
+            <input type="tel" id="up-phone">
+            
+            <label>Facebook URL</label>
+            <input type="text" id="up-fb">
+            
+            <label>Instagram URL</label>
+            <input type="text" id="up-ig">
+            
             <label>WhatsApp Number</label>
-            <div class="wa-container"><span class="wa-label">wa.me/</span><input type="text" id="up-wa-num"></div>
-            <button class="btn-save" id="save-btn" onclick="handleSave()">UPDATE PROFILE</button>
-            <button onclick="closeAdmin()" style="width:100%; background:none; color:#444; border:none; margin-top:20px; cursor:pointer;">EXIT</button>
+            <div class="wa-container">
+                <span class="wa-label">wa.me/</span>
+                <input type="text" id="up-wa-num">
+            </div>
+
+            <button class="btn-save" id="save-btn" onclick="handleSave()">SAVE ALL CHANGES</button>
+            <button class="exit-btn" onclick="closeAdmin()">CANCEL & EXIT</button>
         </div>
     </div>
 
@@ -76,45 +148,23 @@
         const SB_KEY = 'sb_publishable_rBGikrPDXLiK8r0M_1-v6A_btF6X3ZI';
         const client = supabase.createClient(SB_URL, SB_KEY);
 
-        async function secureOpenAdmin() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            if(!id) return alert("No ID found in URL");
-
-            const passInput = prompt("Enter Password:");
-            if(!passInput) return;
-
-            // جلب البيانات بالكامل للتأكد
-            const { data, error } = await client.from('profiles').select('*').eq('id', id).single();
-            
-            if(error) return alert("Database Error: " + error.message);
-
-            // تحويل الاتنين لنصوص ومسح المسافات لضمان التطابق
-            if(data && String(passInput).trim() === String(data.password).trim()) {
-                document.getElementById('up-name').value = data.full_name || '';
-                document.getElementById('up-email').value = data.email || '';
-                document.getElementById('up-phone').value = data.phone || '';
-                document.getElementById('up-fb').value = data.fb_link || '';
-                document.getElementById('up-ig').value = data.ig_link || '';
-                if(data.wa_number) document.getElementById('up-wa-num').value = data.wa_number.replace('https://wa.me/', '');
-                document.getElementById('admin-panel').style.display = 'block';
-            } else {
-                alert("Incorrect Password!");
-            }
-        }
-
+        // وظيفة جلب البيانات وعرضها عند فتح الصفحة
         async function init() {
             const id = new URLSearchParams(window.location.search).get('id');
             if(!id) return;
-            const { data } = await client.from('profiles').select('*').eq('id', id).single();
+
+            const { data, error } = await client.from('profiles').select('*').eq('id', id).single();
             if(data) {
-                document.getElementById('view-name').innerText = data.full_name || '';
+                document.getElementById('view-name').innerText = data.full_name || 'Your Name';
                 document.getElementById('view-email').innerText = data.email || '';
                 document.getElementById('view-img').src = data.avatar_url || 'https://via.placeholder.com/150';
+                
                 if(data.phone) {
                     const p = document.getElementById('view-phone');
                     p.innerText = data.phone; p.href = "tel:" + data.phone;
                     document.getElementById('phone-container').style.display = 'block';
                 }
+
                 showSocial('view-fb', data.fb_link);
                 showSocial('view-ig', data.ig_link);
                 showSocial('view-wa', data.wa_number);
@@ -126,18 +176,55 @@
             if(val && val.length > 5) { el.style.display = 'flex'; el.href = val; }
         }
 
+        // --- وظيفة الحماية والباسورد الصارمة ---
+        async function openAdminWithPass() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if(!id) return alert("ID is missing!");
+
+            const userInput = prompt("Enter Master Password to access editor:");
+            if(!userInput) return;
+
+            // جلب البيانات من سوبابيز للمقارنة
+            const { data } = await client.from('profiles').select('*').eq('id', id).single();
+            
+            if(data) {
+                // تنظيف كامل للمدخلات (مسح المسافات وتحويل لنصوص)
+                const cleanInput = String(userInput).trim();
+                const cleanDBPass = String(data.password).trim();
+
+                if(cleanInput === cleanDBPass) {
+                    // ملء الخانات بالبيانات الحالية
+                    document.getElementById('up-name').value = data.full_name || '';
+                    document.getElementById('up-email').value = data.email || '';
+                    document.getElementById('up-phone').value = data.phone || '';
+                    document.getElementById('up-fb').value = data.fb_link || '';
+                    document.getElementById('up-ig').value = data.ig_link || '';
+                    if(data.wa_number) {
+                        document.getElementById('up-wa-num').value = data.wa_number.replace('https://wa.me/', '');
+                    }
+                    // إظهار اللوحة
+                    document.getElementById('admin-panel').style.display = 'block';
+                } else {
+                    alert("⚠️ Access Denied: Incorrect Password.");
+                }
+            } else {
+                alert("Profile not found in database.");
+            }
+        }
+
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
 
+        // --- وظيفة الحفظ ---
         async function handleSave() {
             const id = new URLSearchParams(window.location.search).get('id');
             const btn = document.getElementById('save-btn');
-            btn.innerText = "UPDATING..."; btn.disabled = true;
+            btn.innerText = "SAVING DATA..."; btn.disabled = true;
 
             const file = document.getElementById('up-file').files[0];
             let imgUrl = document.getElementById('view-img').src;
 
             if(file) {
-                const fileName = `p-${id}-${Date.now()}`;
+                const fileName = `profile-${id}-${Date.now()}`;
                 const { error: upErr } = await client.storage.from('avatars').upload(fileName, file);
                 if(!upErr) {
                     const { data } = client.storage.from('avatars').getPublicUrl(fileName);
@@ -145,19 +232,25 @@
                 }
             }
 
-            const wa = document.getElementById('up-wa-num').value.replace(/\s/g, '');
+            const waRaw = document.getElementById('up-wa-num').value.replace(/\s/g, '');
             const updates = {
                 full_name: document.getElementById('up-name').value,
                 email: document.getElementById('up-email').value,
                 phone: document.getElementById('up-phone').value,
                 fb_link: document.getElementById('up-fb').value,
                 ig_link: document.getElementById('up-ig').value,
-                wa_number: wa ? `https://wa.me/${wa}` : "",
+                wa_number: waRaw ? `https://wa.me/${waRaw}` : "",
                 avatar_url: imgUrl
             };
 
             const { error } = await client.from('profiles').update(updates).eq('id', id);
-            if(!error) location.reload(); else { alert("Error updating."); btn.disabled = false; btn.innerText = "UPDATE PROFILE"; }
+            if(!error) {
+                alert("Success! Your card has been updated.");
+                location.reload();
+            } else {
+                alert("Error: " + error.message);
+                btn.disabled = false; btn.innerText = "SAVE ALL CHANGES";
+            }
         }
 
         window.onload = init;
